@@ -4,11 +4,6 @@ import Visitor from "../models/visitor.js";
 
 export class VisitoPgRepository implements VisitorRepository {
     public create = async(visitor: VisitorEntity): Promise<VisitorEntity> => {
-        // verifica si ya esta registrado algun visitante con esa identificacion
-        const visitorExists = await Visitor.findBy({ serialDocument: visitor.serialDocument });
-        if(visitorExists) return visitorExists;
-
-        // sino existe registralo
         return await new Visitor().fill(visitor).save();
     }
     public findAll = async(): Promise<[] | VisitorEntity[]> => {
@@ -23,6 +18,9 @@ export class VisitoPgRepository implements VisitorRepository {
                 .load('reasons')
         })
         return visitor;
+    }
+    public findByDocument = async(serialDocument: string): Promise<VisitorEntity | null> => {
+        return await Visitor.findBy({ serialDocument });
     }
     public update = async(id: string, dataToUpdate: Partial<VisitorEntity>): Promise<VisitorEntity> => {
         const visitor = await Visitor.findOrFail(id);
