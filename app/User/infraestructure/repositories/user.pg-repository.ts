@@ -1,7 +1,7 @@
-import { generateCharRandom } from "../../../Shared/helpers/generate-char.helper.js";
 import { UserEntity } from "../../domain/user.entity.js";
 import { UserRepository } from "../../domain/user.repository.js";
 import User from "../models/user.js";
+import hash from '@adonisjs/core/services/hash';
 
 export class UserPgRepository implements UserRepository {
     public create = async(user: UserEntity): Promise<UserEntity> => {
@@ -31,8 +31,9 @@ export class UserPgRepository implements UserRepository {
     }
     public login = async(email: string, password: string): Promise<UserEntity | null> => {
         const user = await User.findByOrFail({ email });
-        if(user.password !== password) return null;
-        return user;
+        if(await hash.verify(user.password, password)) return user;
+        // if(user.password !== password) return null;
+        return null;
 
     }
     public resetPassword = async(email: string, newPassword: string): Promise<UserEntity> => {
