@@ -8,5 +8,6 @@ export interface UserRepository {
     remove(id: string): Promise<UserEntity | null>;
 
     //auth actions
-    resetPassword(id: string): Promise<UserEntity>;
+    login(email: string, password: string): Promise<UserEntity | null>
+    resetPassword(email: string, newPassword: string): Promise<UserEntity>;
 };

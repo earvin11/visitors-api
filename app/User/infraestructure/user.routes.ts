@@ -4,5 +4,8 @@ import { UserController } from "./user.controller.js"
 export default () => {
     router.post('/', [UserController, 'store'])
     router.get('/', [UserController, 'index'])
-    router.patch('/:id/reset-password', [UserController, 'resetPassword']) 
+
+    // auth module
+    router.post('/login', [UserController, 'login'])
+    router.patch('/:email/reset-password', [UserController, 'resetPassword']) 
 }

@@ -29,9 +29,14 @@ export class UserPgRepository implements UserRepository {
         const user = await User.findOrFail(id);
         return await user.merge({ isActive: false }).save();
     }
-    public resetPassword = async(id: string): Promise<UserEntity> => {
-        const user = await User.findOrFail(id);
-        const password = generateCharRandom(6)
-        return await user.merge({ password }).save();
+    public login = async(email: string, password: string): Promise<UserEntity | null> => {
+        const user = await User.findByOrFail({ email });
+        if(user.password !== password) return null;
+        return user;
+
+    }
+    public resetPassword = async(email: string, newPassword: string): Promise<UserEntity> => {
+        const user = await User.findByOrFail({ email });
+        return await user.merge({ password: newPassword }).save();
     }
 }

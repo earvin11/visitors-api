@@ -12,15 +12,15 @@ emitter.on('user:registered', async(user) => {
     });
 });
 
-emitter.on('user:reset:password', async(user) => {
+emitter.on('user:reset:password', async(data) => {
     await mail.send((message) => {
         message
-            .to(user.email)
+            .to(data.user.email)
             .from(env.get('SMTP_USERNAME'))
             .subject('Reset password')
             .html(`
                 <h1>Password temp</h1>
-                <h3><br>${user.password}</br></h3>
+                <h3><br>${data.newPassword}</br></h3>
             `)
     })
 })
