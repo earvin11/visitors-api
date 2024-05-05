@@ -7,14 +7,16 @@ export class VisitoPgRepository implements VisitorRepository {
         return await new Visitor().fill(visitor).save();
     }
     public findAll = async(): Promise<[] | VisitorEntity[]> => {
-        return await Visitor.query()
+        return await Visitor
+            .query()
+            .preload('reasons')
     }
     public findById = async(id: string): Promise<VisitorEntity> => {
         const visitor = await Visitor.findOrFail(id);
-        // visitor.load((loader) => {
-        //     loader
-        //         .load('')
-        // })
+        visitor.load((loader) => {
+            loader
+                .load('reasons')
+        })
         return visitor;
     }
     public update = async(id: string, dataToUpdate: Partial<VisitorEntity>): Promise<VisitorEntity> => {

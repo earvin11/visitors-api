@@ -1,9 +1,11 @@
+import { inject } from "@adonisjs/core";
 import { ReasonVisitEntity } from "../domain/reason-visit.entity.js";
-import { ReasonVisitRepository } from "../domain/reason-visit.repository.js";
 import { ReasonVisit } from "../domain/reason-visit.value.js";
+import { ReasonVisitPgRepository } from "../infraestructure/repositories/reason-visit.pg-repository.js";
 
+@inject()
 export class ReasonVisitUseCases {
-    constructor(private readonly reasonVisitRepository: ReasonVisitRepository) {}
+    constructor(private readonly reasonVisitRepository: ReasonVisitPgRepository) {}
 
     public create = async(reason: ReasonVisitEntity) => {
         const newReason = new ReasonVisit(reason);
