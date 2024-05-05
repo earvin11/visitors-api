@@ -12,7 +12,7 @@ export class ReasonVisitController {
         const reason = await this.reasonVisitUseCases.create(data);
         ctx.response.created(reason);
     }
-    public index = async(ctx: HttpContext) => {
+    public index = async() => {
         return await this.reasonVisitUseCases.findAll();
     }
 }

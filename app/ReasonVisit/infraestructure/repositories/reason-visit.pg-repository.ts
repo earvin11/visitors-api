@@ -13,4 +13,14 @@ export class ReasonVisitPgRepository implements ReasonVisitRepository {
             .query()
             .preload('visitor')
     }
+    public findById = async(id: string): Promise<ReasonVisitEntity> => {
+        const reason = await ReasonVisit.findOrFail(id);
+        reason.load('visitor');
+        return reason;
+    }
+    public remove = async(id: string): Promise<ReasonVisitEntity> => {
+        const reason = await ReasonVisit.findOrFail(id);
+        await reason.delete()
+        return reason;
+    }
 }
