@@ -14,4 +14,7 @@ export class UserUseCases {
     public findAll = async() => {
         return await this.userRepository.findAll();
     };
+    public resetPassword = async(id: string) => {
+        return await this.userRepository.resetPassword(id);
+    }
 };

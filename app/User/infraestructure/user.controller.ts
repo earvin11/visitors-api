@@ -16,5 +16,10 @@ export class UserController {
     };
     public index = async() => {
         return await this.userUseCases.findAll()
+    };
+    public resetPassword = async(ctx: HttpContext) => {
+        const user = await this.userUseCases.resetPassword(ctx.request.params().id);
+        ctx.response.ok(user);
+        emitter.emit('user:reset:password', user);
     }
 }

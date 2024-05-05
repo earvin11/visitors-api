@@ -1,3 +1,4 @@
+import { generateCharRandom } from "../../../Shared/helpers/generate-char.helper.js";
 import { UserEntity } from "../../domain/user.entity.js";
 import { UserRepository } from "../../domain/user.repository.js";
 import User from "../models/user.js";
@@ -27,5 +28,10 @@ export class UserPgRepository implements UserRepository {
     public remove = async(id: string): Promise<UserEntity | null> => {
         const user = await User.findOrFail(id);
         return await user.merge({ isActive: false }).save();
+    }
+    public resetPassword = async(id: string): Promise<UserEntity> => {
+        const user = await User.findOrFail(id);
+        const password = generateCharRandom(6)
+        return await user.merge({ password }).save();
     }
 }
